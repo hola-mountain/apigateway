@@ -49,6 +49,13 @@ spring:
         - id: mountain-service
           uri: lb://MOUNTAIN-SERVICE
           predicates:
+            - Path=/mountain
+            - Method=GET
+          filters:
+            - RemoveRequestHeader=Cookie
+        - id: mountain-service
+          uri: lb://MOUNTAIN-SERVICE
+          predicates:
             - Path=/mountain/{mountainId}/review
             - Method=POST
           filters:
