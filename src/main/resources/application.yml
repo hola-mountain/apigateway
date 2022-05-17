@@ -7,7 +7,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://52.78.34.107:8761/eureka/
+      defaultZone: http://15.165.192.190:8761/eureka/
 
 spring:
   application:
@@ -28,27 +28,15 @@ spring:
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
-            - Path=/users/**
+            - Path=/users/login
             - Method=POST
           filters:
             - RemoveRequestHeader=Cookie
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
-            - Path=/mypage/myInfo
-            - Method=GET
-          filters:
-            - RemoveRequestHeader=Cookie
-        - id: mountain-service
-          uri: lb://MOUNTAIN-SERVICE
-          predicates:
-            - Path=/mountain/**
-          filters:
-            - RemoveRequestHeader=Cookie
-        - id: mountain-service
-          uri: lb://MOUNTAIN-SERVICE
-          predicates:
-            - Path=/api/**
+            - Path=/users/join
+            - Method=POST
           filters:
             - RemoveRequestHeader=Cookie
 
