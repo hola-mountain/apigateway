@@ -49,50 +49,7 @@ spring:
         - id: mountain-service
           uri: lb://MOUNTAIN-SERVICE
           predicates:
-            - Path=/mountain
-            - Method=GET
-          filters:
-            - RemoveRequestHeader=Cookie
-        - id: mountain-service
-          uri: lb://MOUNTAIN-SERVICE
-          predicates:
-            - Path=/mountain/{mountainId}/review
-            - Method=POST
-          filters:
-            - RemoveRequestHeader=Cookie
-        - id: mountain-service
-          uri: lb://MOUNTAIN-SERVICE
-          predicates:
-            - Path=/mountain/{mountainId}/review/{reviewId}
-            - Method=PUT
-          filters:
-            - RemoveRequestHeader=Cookie
-        - id: mountain-service
-          uri: lb://MOUNTAIN-SERVICE
-          predicates:
-            - Path=/mountain/{mountainId}/review/{reviewId}
-            - Method=DELETE
-          filters:
-            - RemoveRequestHeader=Cookie
-        - id: mountain-service
-          uri: lb://MOUNTAIN-SERVICE
-          predicates:
-            - Path=/mountain/{mountainId}/review/{reviewId}/recommend
-            - Method=PATCH
-          filters:
-            - RemoveRequestHeader=Cookie
-        - id: mountain-service
-          uri: lb://MOUNTAIN-SERVICE
-          predicates:
-            - Path=/mountain/{mountainId}/favorite
-            - Method=POST
-          filters:
-            - RemoveRequestHeader=Cookie
-        - id: mountain-service
-          uri: lb://MOUNTAIN-SERVICE
-          predicates:
-            - Path=/mountain/{mountainId}/favorite/{favoriteId}
-            - Method=DELETE
+            - Path=/mountain/**
           filters:
             - RemoveRequestHeader=Cookie
 
