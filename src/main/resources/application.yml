@@ -18,6 +18,16 @@ spring:
       resilience4j:
         enabled: true
     gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:3000"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - PATCH
       routes:
         - id: user-service
           uri: http://13.209.3.108:4500/
