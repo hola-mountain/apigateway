@@ -52,6 +52,12 @@ spring:
             - Path=/mountain/**
           filters:
             - RemoveRequestHeader=Cookie
+        - id: mountain-service
+          uri: lb://MOUNTAIN-SERVICE
+          predicates:
+            - Path=/api/**
+          filters:
+            - RemoveRequestHeader=Cookie
 
 resilience4j:
   circuitbreaker:
