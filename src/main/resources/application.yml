@@ -17,7 +17,7 @@ spring:
       globalcors:
         cors-configurations:
           '[/**]':
-            allowedOrigins: "http://localhost:3000"
+            allowedOrigins: "http://holam-front-s3.s3-website.ap-northeast-2.amazonaws.com"
             allowedMethods:
               - GET
               - POST
@@ -37,6 +37,55 @@ spring:
           predicates:
             - Path=/users/join
             - Method=POST
+          filters:
+            - RemoveRequestHeader=Cookie
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/mypage/myInfo
+            - Method=GET
+          filters:
+            - RemoveRequestHeader=Cookie
+        - id: mountain-service
+          uri: lb://MOUNTAIN-SERVICE
+          predicates:
+            - Path=/mountain/{mountainId}/review
+            - Method=POST
+          filters:
+            - RemoveRequestHeader=Cookie
+        - id: mountain-service
+          uri: lb://MOUNTAIN-SERVICE
+          predicates:
+            - Path=/mountain/{mountainId}/review/{reviewId}
+            - Method=PUT
+          filters:
+            - RemoveRequestHeader=Cookie
+        - id: mountain-service
+          uri: lb://MOUNTAIN-SERVICE
+          predicates:
+            - Path=/mountain/{mountainId}/review/{reviewId}
+            - Method=DELETE
+          filters:
+            - RemoveRequestHeader=Cookie
+        - id: mountain-service
+          uri: lb://MOUNTAIN-SERVICE
+          predicates:
+            - Path=/mountain/{mountainId}/review/{reviewId}/recommend
+            - Method=PATCH
+          filters:
+            - RemoveRequestHeader=Cookie
+        - id: mountain-service
+          uri: lb://MOUNTAIN-SERVICE
+          predicates:
+            - Path=/mountain/{mountainId}/favorite
+            - Method=POST
+          filters:
+            - RemoveRequestHeader=Cookie
+        - id: mountain-service
+          uri: lb://MOUNTAIN-SERVICE
+          predicates:
+            - Path=/mountain/{mountainId}/favorite/{favoriteId}
+            - Method=DELETE
           filters:
             - RemoveRequestHeader=Cookie
 
