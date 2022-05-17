@@ -12,47 +12,29 @@ eureka:
 spring:
   application:
     name: gateway-service
+
   cloud:
+    cicuitbreaker:
+      resilience4j:
+        enabled: true
     gateway:
-      globalcors:
-        cors-configurations:
-          '[/**]':
-            allowedOrigins: "http://localhost:3000"
-            allowedMethods:
-              - GET
-              - POST
-              - PUT
-              - DELETE
-              - PATCH
-      routes:
+      httpclient:
+        connect-timeout: 3000
+        response-timeout: 3s
+      routes: # filter 설정
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
-            - Path=/users/login
-            - Method=POST
-          filters:
-            - RemoveRequestHeader=Cookie
-        - id: user-service
-          uri: lb://USER-SERVICE
-          predicates:
-            - Path=/users/join
-            - Method=POST
-          filters:
-            - RemoveRequestHeader=Cookie
-        - id: user-service
-          uri: lb://USER-SERVICE
-          predicates:
-            - Path=/mypage/myInfo
-            - Method=GET
-          filters:
-            - RemoveRequestHeader=Cookie
+            - Path=/users/**
+
         - id: mountain-service
           uri: lb://MOUNTAIN-SERVICE
           predicates:
             - Path=/mountain/**
           filters:
             - RemoveRequestHeader=Cookie
-        - id: mountain-service
+
+        - id: api-service
           uri: lb://MOUNTAIN-SERVICE
           predicates:
             - Path=/api/**
@@ -73,11 +55,16 @@ resilience4j:
 
 management:
   endpoints:
-    health:
-      circuitbreakers:
-        enabled: true
+    web:
+      exposure:
+        include: "*"
   endpoint:
     shutdown:
+      enabled: true
+    health:
+      slow-details: always
+  health:
+    circuitbreakers:
       enabled: true
 
 logging:
