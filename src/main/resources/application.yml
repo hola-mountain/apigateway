@@ -34,6 +34,11 @@ spring:
           predicates:
             - Path=/users/**
 
+        - id: mypage-service
+          uri: http://13.209.3.108:4500/
+          predicates:
+            - Path=/mypage/**
+
         - id: mountain-service
           uri: http://13.209.98.223:5000/
           predicates:
