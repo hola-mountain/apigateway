@@ -3,6 +3,7 @@ package com.holamountain.apigateway.jwt;
 import com.holamountain.apigateway.common.message.ExceptionMessage;
 import com.holamountain.apigateway.exception.AuthorizationException;
 import com.holamountain.apigateway.exception.ExpiredJwtTokenException;
+import com.holamountain.apigateway.exception.MalformedJwtTokenException;
 import com.holamountain.apigateway.exception.UnsupportedJwtTokenException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -27,7 +28,7 @@ public class JwtTokenProvider {
             Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(secret).build().parseClaimsJws(jwtToken);
             return true;
         } catch (SecurityException | MalformedJwtException e) {
-            throw new MalformedJwtException(ExceptionMessage.MalformedJwtException.getMessage());
+            throw new MalformedJwtTokenException(ExceptionMessage.MalformedJwtException.getMessage());
         } catch (ExpiredJwtException e) {
             throw new ExpiredJwtTokenException(ExceptionMessage.ExpiredJwtTokenException.getMessage());
         } catch (UnsupportedJwtException e) {
@@ -36,7 +37,7 @@ public class JwtTokenProvider {
     }
 
     public String resolveToken(ServerHttpRequest serverHttpRequest) {
-        if (serverHttpRequest.getHeaders().containsKey("AUTHORIZATION")) {
+        if (!serverHttpRequest.getHeaders().containsKey("AUTHORIZATION")) {
             throw new AuthorizationException(ExceptionMessage.AuthorizationException.getMessage());
         }
 
@@ -46,9 +47,10 @@ public class JwtTokenProvider {
     public String getUserTypeFromToken(String jwtToken) {
         try {
             SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
-            return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwtToken).getBody().get("userType").toString();
+            String userType = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwtToken).getBody().get("userType").toString();
+            return userType;
         } catch (SecurityException | MalformedJwtException e) {
-            throw new MalformedJwtException(ExceptionMessage.MalformedJwtException.getMessage());
+            throw new MalformedJwtTokenException(ExceptionMessage.MalformedJwtException.getMessage());
         } catch (ExpiredJwtException e) {
             throw new ExpiredJwtTokenException(ExceptionMessage.ExpiredJwtTokenException.getMessage());
         } catch (UnsupportedJwtException e) {

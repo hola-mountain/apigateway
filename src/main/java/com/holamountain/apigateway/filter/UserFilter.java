@@ -29,10 +29,10 @@ public class UserFilter extends AbstractGatewayFilterFactory<UserFilter.Config> 
     @Override
     public GatewayFilter apply(UserFilter.Config config) {
         return ((exchange, chain) -> {
-            String token = jwtTokenProvider.resolveToken((ServerHttpRequest) exchange.getRequest());
+            String token = jwtTokenProvider.resolveToken((ServerHttpRequest) exchange.getRequest()).replaceAll("Bearer ", "");
 
             if (token != null && jwtTokenProvider.isValidToken(token) &&
-                    jwtTokenProvider.getUserTypeFromToken(token).equals(UserType.CUSTOMER)) {
+                    jwtTokenProvider.getUserTypeFromToken(token).equals(UserType.CUSTOMER.getName())) {
                 return chain.filter(exchange);
             } else {
                 throw new AuthorizationException(ExceptionMessage.AuthorizationException.getMessage());
