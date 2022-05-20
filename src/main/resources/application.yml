@@ -21,7 +21,7 @@ spring:
       globalcors:
         cors-configurations:
           '[/**]':
-            allowedOrigins: "http://localhost:3000"
+            allowedOrigins: "http://holam-front-s3.s3-website.ap-northeast-2.amazonaws.com/"
             allowedMethods:
               - GET
               - POST
