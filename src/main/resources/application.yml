@@ -44,7 +44,58 @@ spring:
         - id: mountain-service
           uri: http://13.209.98.223:5000/
           predicates:
-            - Path=/mountain/**
+            - Path=/mountain
+
+        - id: mountain-service
+          uri: http://13.209.98.223:5000/
+          predicates:
+            - Path=/mountain/{mountainId}
+
+        - id: mountain-service
+          uri: http://13.209.98.223:5000/
+          predicates:
+            - Method=GET
+            - Path=/mountain/{mountainId}/review
+
+        - id: mountain-service
+          uri: http://13.209.98.223:5000/
+          predicates:
+            - Method=POST
+            - Path=/mountain/{mountainId}/review
+          filters:
+            - UserFilter
+
+        - id: mountain-service
+          uri: http://13.209.98.223:5000/
+          predicates:
+            - Method=PUT, DELETE
+            - Path=/mountain/{mountainId}/review/{ratingId}
+          filters:
+            - UserFilter
+
+        - id: mountain-service
+          uri: http://13.209.98.223:5000/
+          predicates:
+            - Method=PATCH
+            - Path=/mountain/{mountainId}/review/{ratingId}/recommend
+          filters:
+            - UserFilter
+
+        - id: mountain-service
+          uri: http://13.209.98.223:5000/
+          predicates:
+            - Method=POST
+            - Path=/mountain/{mountainId}/favorite
+          filters:
+            - UserFilter
+
+        - id: mountain-service
+          uri: http://13.209.98.223:5000/
+          predicates:
+            - Method=DELETE
+            - Path=/mountain/{mountainId}/favorite/{favoriteId}
+          filters:
+            - UserFilter
 
 resilience4j:
   circuitbreaker:
